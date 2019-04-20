@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/wanggsx_wifi_transfer" />
+            <option value="$PROJECT_DIR$/wifitransfer" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
