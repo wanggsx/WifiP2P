@@ -44,7 +44,38 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="51dp"
         android:id="@+id/rvMenu_client_activity"
+        android:layout_marginBottom="50dp"
         />
 
+
+    <TextView
+        android:id="@+id/tvServerList_client_activity"
+        android:layout_width="0dp"
+        android:text="当前可用服务端列表"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:onClick="showServerList"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/tvMenuList_client_activity"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        android:background="@color/red"
+        android:textColor="@color/white"
+        />
+
+    <TextView
+        android:id="@+id/tvMenuList_client_activity"
+        android:layout_width="0dp"
+        android:text="当前服务端文件目录"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:onClick="showMenuList"
+        app:layout_constraintLeft_toRightOf="@+id/tvServerList_client_activity"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        android:background="@color/black"
+        android:textColor="@color/white"
+        />
 
 </android.support.constraint.ConstraintLayout>

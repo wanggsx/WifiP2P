@@ -8,8 +8,13 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
+import com.wanggsx.library.util.UtilsToast
 
 class ServerActivity :  AppCompatActivity(), OnWifiStateChangedListener{
+
+    companion object {
+        const val TAG : String = "ServerActivity"
+    }
 
     lateinit  var mReceiver : MyWifiBroadcastReceiver
     var mIsServing = false
@@ -40,11 +45,31 @@ class ServerActivity :  AppCompatActivity(), OnWifiStateChangedListener{
     }
 
     private fun startService(){
+        mWifiP2pManager!!.createGroup(mChannel, object : WifiP2pManager.ActionListener {
+            override fun onSuccess() {
+                Log.e(TAG, "createGroup onSuccess")
+                UtilsToast.showLong("onSuccess")
+            }
 
+            override fun onFailure(reason: Int) {
+                Log.e(TAG, "createGroup onFailure: $reason")
+                UtilsToast.showLong("onFailure")
+            }
+        })
     }
 
     private fun stopService(){
+        mWifiP2pManager!!.removeGroup(mChannel, object : WifiP2pManager.ActionListener {
+            override fun onSuccess() {
+                Log.e(TAG, "removeGroup onSuccess")
+                UtilsToast.showLong("onSuccess")
+            }
 
+            override fun onFailure(reason: Int) {
+                Log.e(TAG, "removeGroup onFailure: $reason")
+                UtilsToast.showLong("onFailure")
+            }
+        })
     }
 
     override fun onDestroy() {
