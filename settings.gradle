@@ -1,1 +1,3 @@
-include ':app', ':wanggsx_wifi_transfer'
+include ':WanggsxLibrary', ':app', ':wanggsx_wifi_transfer'
+project(':WanggsxLibrary').projectDir = new File(settingsDir,'./../../WanggsxLibrary')
+include ':WanggsxLibrary:library'

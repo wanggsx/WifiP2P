@@ -18,9 +18,18 @@ buildscript {
 }
 
 allprojects {
-    repositories {
-        google()
+    repositories{
+        maven { url "https://maven.google.com" }
+        maven { url "https://dl.google.com/dl/android/maven2/"}
+        maven { url 'https://dl.bintray.com/umsdk/release' }
         jcenter()
+        mavenCentral()
+        maven {
+            url "https://jitpack.io"
+        }
+        flatDir {
+            dirs 'libs'
+        }
     }
 }
 

@@ -1,7 +1,9 @@
-package leavesc.hello.filetransfer;
+package com.wanggsx.wanggsx_wifi_transfer;
 
 import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.net.wifi.WpsInfo;
 import android.net.wifi.p2p.WifiP2pConfig;
@@ -18,19 +20,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.wanggsx.library.util.UtilsFileProvider;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import leavesc.hello.filetransfer.adapter.DeviceAdapter;
-import leavesc.hello.filetransfer.broadcast.DirectBroadcastReceiver;
-import leavesc.hello.filetransfer.callback.DirectActionListener;
-import leavesc.hello.filetransfer.common.LoadingDialog;
-import leavesc.hello.filetransfer.model.FileTransfer;
-import leavesc.hello.filetransfer.task.WifiClientTask;
 
 /**
  * 作者：leavesC
@@ -39,7 +32,7 @@ import leavesc.hello.filetransfer.task.WifiClientTask;
  * GitHub：https://github.com/leavesC
  * Blog：https://www.jianshu.com/u/9df45b87cfdf
  */
-public class SendFileActivity extends BaseActivity implements DirectActionListener {
+public class SendFileActivity extends BaseActivity implements OnWifiChangedListener {
 
     public static final String TAG = "SendFileActivity";
 
@@ -82,7 +75,10 @@ public class SendFileActivity extends BaseActivity implements DirectActionListen
                     break;
                 }
                 case R.id.btn_chooseFile: {
-                    UtilsFileProvider.startActivityForChooseFile(SendFileActivity.this);
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.setType("*/*");
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    startActivityForResult(intent, 1);
                     break;
                 }
             }
@@ -135,15 +131,14 @@ public class SendFileActivity extends BaseActivity implements DirectActionListen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == UtilsFileProvider.REQ_GET_FILE) {
+        if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
                 Uri uri = data.getData();
                 if (uri != null) {
-                    String path = UtilsFileProvider.getPathFromUri(SendFileActivity.this,uri);
+                    String path = getPath(this, uri);
                     if (path != null) {
                         File file = new File(path);
-                        boolean tf = file.exists();
-                        if (tf && wifiP2pInfo != null) {
+                        if (file.exists() && wifiP2pInfo != null) {
                             FileTransfer fileTransfer = new FileTransfer(file.getPath(), file.length());
                             Log.e(TAG, "待发送的文件：" + fileTransfer);
                             new WifiClientTask(this, fileTransfer).execute(wifiP2pInfo.groupOwnerAddress.getHostAddress());
@@ -295,7 +290,7 @@ public class SendFileActivity extends BaseActivity implements DirectActionListen
         Log.e(TAG, "Status: " + wifiP2pDevice.status);
         tv_myDeviceName.setText(wifiP2pDevice.deviceName);
         tv_myDeviceAddress.setText(wifiP2pDevice.deviceAddress);
-        tv_myDeviceStatus.setText(MainActivity.getDeviceStatus(wifiP2pDevice.status));
+        tv_myDeviceStatus.setText(DeviceUtils.getDeviceStatus(wifiP2pDevice.status));
     }
 
     @Override
@@ -310,6 +305,22 @@ public class SendFileActivity extends BaseActivity implements DirectActionListen
     @Override
     public void onChannelDisconnected() {
         Log.e(TAG, "onChannelDisconnected");
+    }
+
+    private String getPath(Context context, Uri uri) {
+        if ("content".equalsIgnoreCase(uri.getScheme())) {
+            Cursor cursor = context.getContentResolver().query(uri, new String[]{"_data"}, null, null, null);
+            if (cursor != null) {
+                if (cursor.moveToFirst()) {
+                    String data = cursor.getString(cursor.getColumnIndex("_data"));
+                    cursor.close();
+                    return data;
+                }
+            }
+        } else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            return uri.getPath();
+        }
+        return null;
     }
 
 }

@@ -3,10 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/FileTransfer.iml" filepath="$PROJECT_DIR$/FileTransfer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../WanggsxLibrary/library/WanggsxLibrary-library.iml" filepath="$PROJECT_DIR$/../../WanggsxLibrary/library/WanggsxLibrary-library.iml" />
       <module fileurl="file://$PROJECT_DIR$/WifiP2P.iml" filepath="$PROJECT_DIR$/WifiP2P.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/wanggsx_wifi_transfer/wanggsx_wifi_transfer.iml" filepath="$PROJECT_DIR$/wanggsx_wifi_transfer/wanggsx_wifi_transfer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../WanggsxLibrary/workspace-WanggsxLibrary.iml" filepath="$PROJECT_DIR$/../../WanggsxLibrary/workspace-WanggsxLibrary.iml" />
     </modules>
   </component>
 </project>
