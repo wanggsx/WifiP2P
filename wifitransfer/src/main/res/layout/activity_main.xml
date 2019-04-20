@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:onClick="toClient"
-        android:text="客户端"
+        android:text="注册为文件传输客户端"
         app:layout_constraintBottom_toTopOf="@id/guideline"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:onClick="toServer"
-        android:text="服务端"
+        android:text="注册为文件传输服务端"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guideline" />

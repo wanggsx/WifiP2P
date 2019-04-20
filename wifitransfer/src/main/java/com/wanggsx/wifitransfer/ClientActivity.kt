@@ -7,17 +7,28 @@ import android.net.wifi.p2p.WifiP2pManager
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.View
 
 class ClientActivity :  AppCompatActivity(), OnWifiStateChangedListener{
 
     lateinit  var mReceiver : MyWifiBroadcastReceiver
 
+    private var mWifiP2pManager: WifiP2pManager? = null
+    private var mChannel: WifiP2pManager.Channel? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        window.setDimAmount(0f)
         super.onCreate(savedInstanceState)
-        var mWifiP2pManager : WifiP2pManager = getSystemService(Context.WIFI_P2P_SERVICE) as WifiP2pManager
-        var mChannel = mWifiP2pManager.initialize(this, this.mainLooper,this)
-        mReceiver = MyWifiBroadcastReceiver(mWifiP2pManager,mChannel,this)
+        setContentView(R.layout.activity_client)
+        mWifiP2pManager = getSystemService(Context.WIFI_P2P_SERVICE) as WifiP2pManager
+        mChannel = mWifiP2pManager!!.initialize(this, this.mainLooper,this)
+        mReceiver = MyWifiBroadcastReceiver(mWifiP2pManager!!,mChannel!!,this)
         registerReceiver(mReceiver,MyWifiBroadcastReceiver.intentFilter)
+    }
+
+    //上传文件
+    fun uploadFile(view: View){
+
     }
 
     override fun onDestroy() {
