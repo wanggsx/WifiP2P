@@ -8,6 +8,8 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.wanggsx.library.util.UtilsFile;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -85,7 +87,10 @@ public class WifiServerService extends IntentService {
             Log.e(TAG, "待接收的文件: " + fileTransfer);
             String name = new File(fileTransfer.getFilePath()).getName();
             //将文件存储至指定位置
-            file = new File(Environment.getExternalStorageDirectory() + "/" + name);
+            file = new File(Environment.getExternalStorageDirectory() + "/wifip2p/" + name);
+            UtilsFile.mkdirs(file.getPath());
+            if (file.exists())file = new File(file.getPath()+"_1");
+            file.createNewFile();
             fileOutputStream = new FileOutputStream(file);
             byte buf[] = new byte[512];
             int len;
