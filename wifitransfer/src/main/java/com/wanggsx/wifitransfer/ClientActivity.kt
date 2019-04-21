@@ -1,6 +1,8 @@
 package com.wanggsx.wifitransfer
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.net.wifi.WpsInfo
 import android.net.wifi.p2p.WifiP2pConfig
 import android.net.wifi.p2p.WifiP2pDevice
@@ -14,7 +16,9 @@ import android.util.Log
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
+import com.wanggsx.library.util.UtilsFileProvider
 import com.wanggsx.library.util.UtilsToast
+import java.io.File
 
 class ClientActivity : AppCompatActivity(), OnWifiStateChangedListener {
 
@@ -41,8 +45,30 @@ class ClientActivity : AppCompatActivity(), OnWifiStateChangedListener {
     }
 
     //上传文件
-    fun uploadFile(view: View) {
+    fun uploadFile(v: View) {
+        UtilsFileProvider.startActivityForChooseFile(this@ClientActivity)
+    }
 
+    private lateinit var mWifiP2pInfo: WifiP2pInfo
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == UtilsFileProvider.REQ_GET_FILE) {
+            if (resultCode == Activity.RESULT_OK) {
+                val uri = data!!.data
+                if (uri != null) {
+                    val path = UtilsFileProvider.getPathFromUri(this@ClientActivity, uri)
+                    if (path != null) {
+                        val file = File(path)
+                        val tf = file.exists()
+                        if (tf && mWifiP2pInfo != null) {
+                            val fileTransfer = FileTransfer(file.path, file.length())
+                            ClientTask(this, fileTransfer).execute(mWifiP2pInfo.groupOwnerAddress.getHostAddress())
+                        }
+                    }
+                }
+            }
+        }
     }
 
     //显示可用的服务端列表
@@ -83,6 +109,24 @@ class ClientActivity : AppCompatActivity(), OnWifiStateChangedListener {
 
     override fun onConnectionInfoAvailable(wifiP2pInfo: WifiP2pInfo?) {
         Log.d("wanggsx", "onConnectionInfoAvailable")
+        val stringBuilder = StringBuilder()
+        if (mWifiP2pDevice != null) {
+            stringBuilder.append("连接的设备名：")
+            stringBuilder.append(mWifiP2pDevice!!.deviceName)
+            stringBuilder.append("\n")
+            stringBuilder.append("连接的设备的地址：")
+            stringBuilder.append(mWifiP2pDevice!!.deviceAddress)
+        }
+        stringBuilder.append("\n")
+        stringBuilder.append("是否群主：")
+        stringBuilder.append(if (wifiP2pInfo!!.isGroupOwner) "是群主" else "非群主")
+        stringBuilder.append("\n")
+        stringBuilder.append("群主IP地址：")
+        stringBuilder.append(wifiP2pInfo!!.groupOwnerAddress.hostAddress)
+        if (wifiP2pInfo.groupFormed && !wifiP2pInfo.isGroupOwner) {
+            this.mWifiP2pInfo = wifiP2pInfo
+        }
+
     }
 
     override fun onSelfDeviceAvailable(wifiP2pDevice: WifiP2pDevice?) {

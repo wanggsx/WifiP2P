@@ -4,6 +4,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.wanggsx.library.util.UtilsPermission
 
 class MainActivity : AppCompatActivity(){
 
@@ -11,7 +12,7 @@ class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         //申请文件读写权限
-        //UtilsPermission.requestWriteStory(this)
+        UtilsPermission.requestWriteStory(this)
     }
 
     fun toClient(view: View) {

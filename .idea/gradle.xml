@@ -7,11 +7,9 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/../../WanggsxLibrary" />
-            <option value="$PROJECT_DIR$/../../WanggsxLibrary/library" />
+            <option value="$PROJECT_DIR$/../WanggsxLibrary" />
+            <option value="$PROJECT_DIR$/../WanggsxLibrary/library" />
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/wanggsx_wifi_transfer" />
             <option value="$PROJECT_DIR$/wifitransfer" />
           </set>
         </option>
