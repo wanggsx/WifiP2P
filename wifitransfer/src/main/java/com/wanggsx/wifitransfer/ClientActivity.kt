@@ -63,7 +63,7 @@ class ClientActivity : AppCompatActivity(), OnWifiStateChangedListener {
                         val tf = file.exists()
                         if (tf && mWifiP2pInfo != null) {
                             val fileTransfer = FileTransfer(file.path, file.length())
-                            ClientTask(this, fileTransfer).execute(mWifiP2pInfo.groupOwnerAddress.getHostAddress())
+                            ClientTask(this, fileTransfer).execute(mWifiP2pInfo.groupOwnerAddress.hostAddress)
                         }
                     }
                 }

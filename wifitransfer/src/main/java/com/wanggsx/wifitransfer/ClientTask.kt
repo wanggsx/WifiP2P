@@ -14,13 +14,6 @@ import java.io.OutputStream
 import java.net.InetSocketAddress
 import java.net.Socket
 
-/**
- * 作者：leavesC
- * 时间：2019/2/27 23:56
- * 描述：客户端发送文件
- * GitHub：https://github.com/leavesC
- * Blog：https://www.jianshu.com/u/9df45b87cfdf
- */
 class ClientTask(context: Context, private val fileTransfer: FileTransfer) : AsyncTask<String, Int, Boolean>() {
 
     private val progressDialog: ProgressDialog = ProgressDialog(context)
